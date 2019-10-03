@@ -72,6 +72,7 @@ function decode(binary) {
         finalWord = finalWord + morze.get(currentValue);
     });
     console.log(finalWord);
+    return finalWord;
 }
 
 module.exports = {
