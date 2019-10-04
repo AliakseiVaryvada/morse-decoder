@@ -47,34 +47,45 @@ function decode(binary) {
     let str = "";
     let morzeCode = "";
     let masStr = [...space];
-    let finalWord = "";
+    let finalWord = [];
+    let count = 0;
     masStr.forEach(function getChar(currentValue) {
         str = str + currentValue;
         if (str.includes("*")) {
-            morzeCode = morzeCode + ", ,";
+            morzeCode = morzeCode + "o o";
             str = "";
+            count = count + 9;
         }
         if (str.length === 2) {
             str === "10" ?
                 (morzeCode = morzeCode + ".") :
                 str === "11" ?
                 (morzeCode = morzeCode + "-") :
-                str === "00" ?
-                (morzeCode = morzeCode + ",") :
                 (str = "");
             str = "";
         }
+        count++;
+        if (count === 10) {
+            morzeCode = morzeCode + "o";
+            count = 0;
+        }
     });
-    morzeCode = morzeCode.replace(/,+/g, ",");
-    let morzeCodeMass = morzeCode.split(",");
-    morzeCodeMass.splice(0, 1);
+    console.log(morzeCode);
+    let morzeCodeMass = morzeCode.split("o");
+    morzeCodeMass = morzeCodeMass.filter(element => element !== "");
+    console.log(morzeCodeMass);
     morzeCodeMass.forEach(function(currentValue, index) {
-        finalWord = finalWord + morze.get(currentValue);
+        let a = morze.get(currentValue);
+        finalWord = finalWord + a;
     });
     console.log(finalWord);
     return finalWord;
 }
-
+console.log(
+    decode(
+        "000000101100000011100000101010000010111100000000100000101110**********00001111110000001110**********000000001100101010100000000010**********00001010110010111010000000001100000010100000001111000000101100000000110000000010**********00111110110000101011000000001000001010100000000011000000101000001111110000001110**********00001111110010101110**********0010111010000000101000101011100000000010**********000000001100101010100000000010**********00001010110000001110000000101000101010110000000010000010111000001010100000000010**********000000101100000011100000111010**********0000000010001010101100000000100000101110001110111100000000110010101010000000101000000011100000111110**********00000010100000101010**********10101010111010111111"
+    )
+);
 module.exports = {
     decode
 };
